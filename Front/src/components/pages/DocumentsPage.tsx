@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { RefreshCw, FileText, Trash2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { fetchDocuments } from '../../utils/api';
+import { fetchDocuments, deleteDocumentApi  } from '../../utils/api';
 
 interface Document {
   id: string;
@@ -25,6 +25,15 @@ export default function DocumentsPage() {
     try {
       const docs = await fetchDocuments();
       setDocuments(docs);
+
+      // Si había un documento seleccionado que ya no existe, limpiarlo
+      if (selectedDoc && !docs.find((d: Document) => d.id === selectedDoc.id)) {
+        setSelectedDoc(null);
+      }
+    } catch (error) {
+      console.error("Error fetching documents:", error);
+      setDocuments([]);
+      setSelectedDoc(null);
     } finally {
       setLoading(false);
     }
@@ -49,6 +58,7 @@ export default function DocumentsPage() {
           </Button>
         </div>
       </CardHeader>
+
       <CardContent>
         {documents.length === 0 ? (
           <div className="text-center py-12">
@@ -83,15 +93,24 @@ export default function DocumentsPage() {
                       </div>
                     </div>
                   </div>
+
                   <Button
                     variant="ghost"
                     size="icon"
                     className="dark:text-red-400 dark:hover:bg-red-500/10 dark:hover:text-red-300"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      // Aquí podrías agregar la funcionalidad de eliminar
-                      alert('Funcionalidad de eliminar - implementar según tu API');
-                    }}
+                    onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
+  e.stopPropagation();
+
+  if (confirm("¿Seguro que quieres eliminar este documento?")) {
+    try {
+      await deleteDocumentApi(doc.id);
+      alert("Documento eliminado");
+      loadDocuments();
+    } catch (err) {
+      alert("Error al eliminar documento");
+    }
+  }
+}}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>

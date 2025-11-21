@@ -14,17 +14,13 @@ interface Document {
 
 interface QueryResponse {
   answer: string;
-  sources: Array<{
-    chunk_id: string;
-    content: string;
-    similarity: number;
-  }>;
+  sources: string[]; // <-- CORREGIDO
 }
 
 interface Message {
   type: 'user' | 'assistant';
   content: string;
-  sources?: QueryResponse['sources'];
+  sources?: string[]; // <-- CORREGIDO
 }
 
 export default function FloatingChat() {
@@ -65,24 +61,22 @@ export default function FloatingChat() {
       return;
     }
 
-    if (!question.trim()) {
-      return;
-    }
+    if (!question.trim()) return;
 
     const userMessage: Message = { type: 'user', content: question };
     setMessages((prev) => [...prev, userMessage]);
-    
+
     const currentQuestion = question;
     setQuestion('');
     setLoading(true);
 
     try {
-      const data = await queryDocument(selectedDocId, currentQuestion);
-      
+      const data: QueryResponse = await queryDocument(selectedDocId, currentQuestion);
+
       const assistantMessage: Message = {
         type: 'assistant',
         content: data.answer,
-        sources: data.sources,
+        sources: data.sources, // <-- AHORA SON strings
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
@@ -111,16 +105,13 @@ export default function FloatingChat() {
         className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white shadow-lg shadow-cyan-500/50 flex items-center justify-center transition-all duration-300 glow-border-strong z-50 hover:scale-110"
         aria-label="Abrir chat de consultas"
       >
-        {isOpen ? (
-          <X className="w-8 h-8" />
-        ) : (
-          <HelpCircle className="w-8 h-8 animate-pulse" />
-        )}
+        {isOpen ? <X className="w-8 h-8" /> : <HelpCircle className="w-8 h-8 animate-pulse" />}
       </button>
 
       {/* Floating Chat Window */}
       {isOpen && (
         <div className="fixed bottom-28 right-8 w-96 h-[600px] bg-gray-900/95 backdrop-blur-md border border-cyan-500/50 rounded-lg shadow-2xl shadow-cyan-500/30 z-50 flex flex-col glow-border-strong">
+          
           {/* Header */}
           <div className="p-4 border-b border-cyan-500/30 bg-gradient-to-r from-cyan-500/20 to-blue-500/20">
             <div className="flex items-center justify-between">
@@ -146,11 +137,7 @@ export default function FloatingChat() {
               </SelectTrigger>
               <SelectContent className="dark:bg-gray-800 dark:border-cyan-500/50">
                 {documents.map((doc) => (
-                  <SelectItem 
-                    key={doc.id} 
-                    value={doc.id}
-                    className="dark:text-cyan-100 dark:focus:bg-cyan-500/20 dark:focus:text-cyan-300"
-                  >
+                  <SelectItem key={doc.id} value={doc.id}>
                     {doc.filename}
                   </SelectItem>
                 ))}
@@ -162,17 +149,12 @@ export default function FloatingChat() {
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.length === 0 ? (
               <div className="flex items-center justify-center h-full">
-                <p className="dark:text-cyan-100/40 text-center">
-                  Haz una pregunta...
-                </p>
+                <p className="dark:text-cyan-100/40 text-center">Haz una pregunta...</p>
               </div>
             ) : (
               <>
                 {messages.map((msg, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
+                  <div key={idx} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                     <div
                       className={`max-w-[85%] p-3 rounded-lg ${
                         msg.type === 'user'
@@ -181,16 +163,17 @@ export default function FloatingChat() {
                       }`}
                     >
                       <p className="whitespace-pre-wrap">{msg.content}</p>
+
                       {msg.sources && msg.sources.length > 0 && (
                         <details className="mt-2 pt-2 border-t border-cyan-500/30">
                           <summary className="cursor-pointer text-cyan-300 hover:text-cyan-200 uppercase tracking-wide">
                             Fuentes
                           </summary>
+
                           <div className="mt-2 text-xs max-h-32 overflow-y-auto">
-                            {msg.sources.map((source, i) => (
+                            {msg.sources.map((src, i) => (
                               <div key={i} className="mb-2 p-2 bg-gray-900/50 rounded">
-                                <p className="text-cyan-400">Similarity: {source.similarity.toFixed(2)}</p>
-                                <p className="text-cyan-100/70 line-clamp-2">{source.content}</p>
+                                <p className="text-cyan-100/80 whitespace-pre-wrap">{src}</p>
                               </div>
                             ))}
                           </div>
@@ -204,7 +187,7 @@ export default function FloatingChat() {
             )}
           </div>
 
-          {/* Input Area */}
+          {/* Input */}
           <div className="p-4 border-t border-cyan-500/20 bg-gray-900/50">
             <div className="flex gap-2">
               <Textarea

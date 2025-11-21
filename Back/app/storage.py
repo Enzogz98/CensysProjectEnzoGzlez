@@ -30,13 +30,44 @@ class DocumentStore:
     def get(self, doc_id: str):
         return self.docs.get(doc_id)
 
-    def save_index(self, doc_id, chunks, embeddings):
+    def save_index(self, doc_id: str, chunks, embeddings):
         with open(os.path.join(INDEX_DIR, f"{doc_id}.pkl"), "wb") as f:
             pickle.dump({"chunks": chunks, "embeddings": embeddings}, f)
 
-    def load_index(self, doc_id):
+    def load_index(self, doc_id: str):
         path = os.path.join(INDEX_DIR, f"{doc_id}.pkl")
         if not os.path.exists(path):
             return None
         with open(path, "rb") as f:
             return pickle.load(f)
+
+def delete_document(doc_id: str) -> bool:
+    """
+    Elimina el archivo original, el índice y la metadata de docs.json.
+    """
+    deleted_any = False
+
+    # Archivo original
+    doc_path = os.path.join(DOCS_DIR, f"{doc_id}.txt")
+    if os.path.exists(doc_path):
+        os.remove(doc_path)
+        deleted_any = True
+
+    # Archivo de índice
+    index_path = os.path.join(INDEX_DIR, f"{doc_id}.pkl")
+    if os.path.exists(index_path):
+        os.remove(index_path)
+        deleted_any = True
+
+    # Eliminar metadata del docs.json
+    if os.path.exists(DOCS_PATH):
+        with open(DOCS_PATH, "r") as f:
+            data = json.load(f)
+
+        if doc_id in data:
+            del data[doc_id]
+            with open(DOCS_PATH, "w") as f:
+                json.dump(data, f, indent=2)
+            deleted_any = True
+
+    return deleted_any

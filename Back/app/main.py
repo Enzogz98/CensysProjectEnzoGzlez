@@ -4,7 +4,7 @@ import os
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from .storage import DocumentStore
+from .storage import DocumentStore, delete_document   # <-- FALTABA ESTO
 from .schemas import DocumentMetadata, DocumentListResponse, QueryRequest, QueryResponse
 from .rag import build_index, answer
 from .config import DOCS_DIR
@@ -59,3 +59,12 @@ async def query(req: QueryRequest):
 
     ans, sources = await answer(store, req.document_id, req.question, req.top_k)
     return QueryResponse(answer=ans, sources=sources)
+
+@app.delete("/documents/{doc_id}")
+def delete_document_endpoint(doc_id: str):
+    deleted = delete_document(doc_id)
+
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Documento no encontrado")
+
+    return {"status": "deleted", "id": doc_id}

@@ -13,19 +13,16 @@ interface Document {
   n_chunks: number;
 }
 
+// Ajustado a lo que devuelve el backend real
 interface QueryResponse {
   answer: string;
-  sources: Array<{
-    chunk_id: string;
-    content: string;
-    similarity: number;
-  }>;
+  sources: string[];
 }
 
 interface Message {
   type: 'user' | 'assistant';
   content: string;
-  sources?: QueryResponse['sources'];
+  sources?: string[];
 }
 
 export default function ChatPage() {
@@ -77,7 +74,7 @@ export default function ChatPage() {
     setLoading(true);
 
     try {
-      const data = await queryDocument(selectedDocId, currentQuestion);
+      const data: QueryResponse = await queryDocument(selectedDocId, currentQuestion);
       
       // Add assistant message
       const assistantMessage: Message = {
@@ -161,14 +158,21 @@ export default function ChatPage() {
                       }`}
                     >
                       <p className="whitespace-pre-wrap">{msg.content}</p>
+                      
                       {msg.sources && msg.sources.length > 0 && (
                         <details className="mt-3 pt-3 border-t border-cyan-500/30">
                           <summary className="cursor-pointer text-cyan-300 hover:text-cyan-200 uppercase tracking-wide">
                             Ver fuentes ({msg.sources.length})
                           </summary>
-                          <pre className="mt-2 text-xs overflow-x-auto">
-                            {JSON.stringify(msg.sources, null, 2)}
-                          </pre>
+
+                          {/* NUEVO: fuentes texto a texto */}
+                          <ul className="mt-2 text-xs space-y-2">
+                            {msg.sources.map((src, i) => (
+                              <li key={i} className="p-2 bg-gray-900/40 border border-cyan-500/20 rounded">
+                                {src}
+                              </li>
+                            ))}
+                          </ul>
                         </details>
                       )}
                     </div>

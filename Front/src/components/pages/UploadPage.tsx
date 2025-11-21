@@ -4,6 +4,13 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { uploadDocument } from '../../utils/api';
 
+interface UploadResponse {
+  id: string;
+  filename: string;
+  size: number;
+  n_chunks: number;
+}
+
 export default function UploadPage() {
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploadMessage, setUploadMessage] = useState('');
@@ -24,15 +31,18 @@ export default function UploadPage() {
     setUploadMessage('');
 
     try {
-      const result = await uploadDocument(uploadFile);
-      setUploadMessage(`✓ Archivo subido exitosamente: ${result.filename || uploadFile.name}`);
+      const result = await uploadDocument(uploadFile) as UploadResponse;
+
+      setUploadMessage(`✓ Archivo subido exitosamente: ${result.filename}`);
       setUploadFile(null);
-      
-      // Limpiar el input file
+
+      // Limpiar input file
       const fileInput = document.getElementById('file-upload') as HTMLInputElement;
       if (fileInput) fileInput.value = '';
     } catch (error) {
-      setUploadMessage(`✗ Error al subir: ${error instanceof Error ? error.message : 'Error desconocido'}`);
+      setUploadMessage(
+        `✗ Error al subir: ${error instanceof Error ? error.message : 'Error desconocido'}`
+      );
     } finally {
       setLoading(false);
     }
@@ -49,6 +59,7 @@ export default function UploadPage() {
           Solo se aceptan archivos .txt
         </CardDescription>
       </CardHeader>
+
       <CardContent>
         <div className="flex gap-3 flex-wrap items-end">
           <div className="flex-1 min-w-[200px]">
@@ -60,25 +71,28 @@ export default function UploadPage() {
               className="w-full px-4 py-3 border border-cyan-500/30 rounded-md dark:bg-gray-800/50 dark:border-cyan-500/50 dark:text-cyan-100 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-cyan-500/20 file:text-cyan-400 hover:file:bg-cyan-500/30 transition-all"
             />
           </div>
-          <Button 
-            onClick={handleUpload} 
+
+          <Button
+            onClick={handleUpload}
             disabled={loading || !uploadFile}
             className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white shadow-lg shadow-cyan-500/50 disabled:opacity-50 disabled:shadow-none transition-all duration-300 uppercase tracking-wide"
           >
             {loading ? 'Subiendo...' : 'Subir'}
           </Button>
         </div>
+
         {uploadMessage && (
-          <div className={`mt-4 p-4 rounded-md border-l-4 ${
-            uploadMessage.startsWith('✓') 
-              ? 'bg-green-500/10 border-green-500 text-green-400' 
-              : 'bg-red-500/10 border-red-500 text-red-400'
-          }`}>
+          <div
+            className={`mt-4 p-4 rounded-md border-l-4 ${
+              uploadMessage.startsWith('✓')
+                ? 'bg-green-500/10 border-green-500 text-green-400'
+                : 'bg-red-500/10 border-red-500 text-red-400'
+            }`}
+          >
             {uploadMessage}
           </div>
         )}
 
-        {/* Additional Info */}
         <div className="mt-8 p-6 bg-gray-800/30 rounded-md border border-cyan-500/20">
           <h3 className="dark:text-cyan-400 uppercase tracking-wide mb-3">Instrucciones</h3>
           <ul className="space-y-2 dark:text-cyan-100/80">
@@ -88,7 +102,7 @@ export default function UploadPage() {
             </li>
             <li className="flex items-start gap-2">
               <span className="text-cyan-400 mt-1">▸</span>
-              <span>Haz clic en el botón "Subir" para procesarlo</span>
+              <span>Haz clic en "Subir" para procesarlo</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-cyan-400 mt-1">▸</span>
@@ -100,6 +114,7 @@ export default function UploadPage() {
             </li>
           </ul>
         </div>
+
       </CardContent>
     </Card>
   );

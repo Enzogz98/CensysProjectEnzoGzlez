@@ -1,162 +1,128 @@
-// API Configuration
+// API BASE
 export const API_BASE = "http://localhost:8000";
 
-// Mock data for development/demo
+// MOCK DATA
 export const MOCK_DOCUMENTS = [
   {
     id: "doc-001",
     filename: "manual_usuario.txt",
     size: 15420,
-    n_chunks: 23
+    n_chunks: 23,
   },
   {
     id: "doc-002",
     filename: "guia_tecnica.txt",
     size: 28900,
-    n_chunks: 42
+    n_chunks: 42,
   },
-  {
-    id: "doc-003",
-    filename: "faq_sistema.txt",
-    size: 9856,
-    n_chunks: 15
-  }
 ];
 
 export const MOCK_RESPONSES = [
-  "Esta es una respuesta de demostración del sistema RAG. En producción, aquí se mostraría la respuesta generada por el modelo basándose en el contenido del documento.",
-  "El sistema analiza los documentos y utiliza técnicas de recuperación aumentada para proporcionar respuestas precisas basadas en el contexto.",
-  "Para obtener respuestas reales, conecta el frontend a tu API backend en http://localhost:8000",
+  "Respuesta demo del sistema RAG.",
+  "Otra respuesta simulada.",
 ];
 
-// Check if API is available
+// ---------- API CHECK ----------
 let apiAvailable: boolean | null = null;
-let apiCheckInProgress = false;
 
-export async function checkApiAvailability(): Promise<boolean> {
+export async function checkApiAvailability() {
   if (apiAvailable !== null) return apiAvailable;
-  if (apiCheckInProgress) return false;
-  
-  apiCheckInProgress = true;
-  
+
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 1000);
-    
-    const response = await fetch(`${API_BASE}/documents`, {
-      method: 'GET',
-      signal: controller.signal,
-    });
-    
-    clearTimeout(timeoutId);
-    apiAvailable = response.ok;
-    return apiAvailable;
-  } catch (error) {
+    const res = await fetch(`${API_BASE}/documents`);
+    apiAvailable = res.ok;
+  } catch (e) {
     apiAvailable = false;
-    return false;
-  } finally {
-    apiCheckInProgress = false;
   }
+  return apiAvailable;
 }
 
-export function isUsingMockData(): boolean {
+export function isUsingMockData() {
   return apiAvailable === false;
 }
 
-// Fetch documents with fallback to mock data
+// ---------- FETCH DOCUMENTS ----------
 export async function fetchDocuments() {
-  try {
-    const isAvailable = await checkApiAvailability();
-    
-    if (!isAvailable) {
-      return MOCK_DOCUMENTS;
-    }
+  const available = await checkApiAvailability();
 
-    const response = await fetch(`${API_BASE}/documents`);
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-    const data = await response.json();
-    return Array.isArray(data) ? data : data.documents || [];
-  } catch (error) {
-    return MOCK_DOCUMENTS;
-  }
+  if (!available) return MOCK_DOCUMENTS;
+
+  const res = await fetch(`${API_BASE}/documents`);
+  const data = await res.json();
+
+  // El backend devuelve { documents: [...] }
+  return data.documents || [];
 }
 
-// Upload document
+// ---------- UPLOAD DOCUMENT ----------
 export async function uploadDocument(file: File) {
-  const isAvailable = await checkApiAvailability();
-  
-  if (!isAvailable) {
-    // Simulate upload with mock data
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          filename: file.name,
-          message: 'Documento simulado (modo demostración)'
-        });
-      }, 1000);
-    });
+  const available = await checkApiAvailability();
+
+  if (!available) {
+    return {
+      id: "sim-" + Date.now(),
+      filename: file.name,
+      size: file.size,
+      n_chunks: 0,
+    };
   }
 
-  const formData = new FormData();
-  formData.append('file', file);
+  const form = new FormData();
+  form.append("file", file);
 
-  const response = await fetch(`${API_BASE}/documents`, {
-    method: 'POST',
-    body: formData,
+  const res = await fetch(`${API_BASE}/documents`, {
+    method: "POST",
+    body: form,
   });
 
-  if (!response.ok) {
-    throw new Error(`Error ${response.status}: ${response.statusText}`);
-  }
+  if (!res.ok) throw new Error("Error al subir documento");
 
-  return await response.json();
+  return res.json();
 }
 
-// Query document
+// ---------- QUERY DOCUMENT ----------
 export async function queryDocument(documentId: string, question: string) {
-  const isAvailable = await checkApiAvailability();
-  
-  if (!isAvailable) {
-    // Return mock response
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const randomResponse = MOCK_RESPONSES[Math.floor(Math.random() * MOCK_RESPONSES.length)];
-        resolve({
-          answer: randomResponse,
-          sources: [
-            {
-              chunk_id: "chunk-001",
-              content: "Este es un fragmento de ejemplo del documento. En producción, aquí se mostrarían los chunks relevantes del documento consultado.",
-              similarity: 0.89
-            },
-            {
-              chunk_id: "chunk-002",
-              content: "Otro fragmento relevante que contribuye a la respuesta generada por el sistema RAG.",
-              similarity: 0.76
-            }
-          ]
-        });
-      }, 1500);
-    });
+  const available = await checkApiAvailability();
+
+  if (!available) {
+    return {
+      answer: MOCK_RESPONSES[Math.floor(Math.random() * MOCK_RESPONSES.length)],
+      sources: ["Chunk simulado 1", "Chunk simulado 2"],
+    };
   }
 
-  const response = await fetch(`${API_BASE}/query`, {
-    method: 'POST',
+  const res = await fetch(`${API_BASE}/query`, {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      document_id: documentId,
-      question: question,
-    }),
+    body: JSON.stringify({ document_id: documentId, question }),
   });
 
-  if (!response.ok) {
-    throw new Error(`Error ${response.status}: ${response.statusText}`);
+  if (!res.ok) throw new Error("Error en la consulta RAG");
+
+  const backendData = await res.json();
+
+  // El backend devuelve: sources: [string, string]
+  return {
+    answer: backendData.answer,
+    sources: backendData.sources || [],
+  };
+}
+export async function deleteDocumentApi(documentId: string) {
+  const available = await checkApiAvailability();
+
+  if (!available) {
+    return { status: "deleted", id: documentId };
   }
 
-  return await response.json();
+  const res = await fetch(`${API_BASE}/documents/${documentId}`, {
+    method: "DELETE"
+  });
+
+  if (!res.ok) {
+    throw new Error(`Error al eliminar documento (${res.status})`);
+  }
+
+  return res.json();
 }
