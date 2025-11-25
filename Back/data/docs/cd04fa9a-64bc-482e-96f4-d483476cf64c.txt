@@ -1,0 +1,11 @@
+-acomodar el login, centrarlo 
+-home: cambiar tamaño de carrusel
+	las cards (tamaño e imagenes)
+-navbar: icono instagram en contacto
+-historia: agregar libreria "aos", retocar colores, acomodar tamaños(letras y texto) y alargarla.
+-noticias: acomodar las cards del costado,
+	"target blanck". sacar tucsalud.
+-profesionales:(se ve con el back)
+-footer: acomodar para que este siempre abajo
+-contacto: sacar formulario de mensaje, acomodar contacto y el mapa uno al lado del otro.
+-acomodar tablas horarios de atencion, horarios administrativos

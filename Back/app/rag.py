@@ -16,7 +16,18 @@ async def embed_texts(texts):
                 json={"model": EMBEDDING_MODEL, "prompt": t}
             )
             data = res.json()
-            vectors.append(data["embedding"])
+
+            # 🔥 CORRECCIÓN CLAVE:
+            # Ollama devuelve embeddings como lista:
+            # { "embeddings": [ [0.12, -0.33, ...] ] }
+            if "embedding" in data:
+                # casos antiguos (casi nunca)
+                vectors.append(data["embedding"])
+            elif "embeddings" in data:
+                vectors.append(data["embeddings"][0])
+            else:
+                raise ValueError(f"Respuesta inesperada del modelo: {data}")
+
     return np.array(vectors, dtype="float32")
 
 def cosine_sim(q, m):
@@ -35,9 +46,10 @@ async def answer(store, doc_id, question, top_k=4):
     chunks = index["chunks"]
     embs = index["embeddings"]
 
-    q_emb = await embed_texts([question])[0]
-    sims = cosine_sim(q_emb, embs)
+    q_emb = await embed_texts([question])
+    q_emb = q_emb[0]
 
+    sims = cosine_sim(q_emb, embs)
     idxs = np.argsort(-sims)[:top_k]
     selected = [chunks[i] for i in idxs]
 
@@ -51,7 +63,7 @@ Usa solo el siguiente contexto para responder:
 Pregunta: {question}
 """
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=60.0) as client:
         res = await client.post(
             f"{OLLAMA_BASE_URL}/api/chat",
             json={
@@ -61,4 +73,10 @@ Pregunta: {question}
         )
         data = res.json()
 
-    return data["message"]["content"], selected
+    # 🔥 Algunos modelos devuelven {"message": {"content": "..."}} otros {"content": "..." }
+    if "message" in data and "content" in data["message"]:
+        answer_text = data["message"]["content"]
+    else:
+        answer_text = data.get("content", "")
+
+    return answer_text, selected

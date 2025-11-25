@@ -16,14 +16,19 @@ export default function UploadPage() {
   const [uploadMessage, setUploadMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const allowedExtensions = ['.txt', '.pdf', '.docx', '.odt'];
+
   const handleUpload = async () => {
     if (!uploadFile) {
       setUploadMessage('Por favor selecciona un archivo');
       return;
     }
 
-    if (!uploadFile.name.endsWith('.txt')) {
-      setUploadMessage('Error: Solo se aceptan archivos .txt');
+    const lower = uploadFile.name.toLowerCase();
+    const isAllowed = allowedExtensions.some(ext => lower.endsWith(ext));
+
+    if (!isAllowed) {
+      setUploadMessage('Error: Solo se aceptan archivos .txt, .pdf, .docx y .odt');
       return;
     }
 
@@ -32,11 +37,10 @@ export default function UploadPage() {
 
     try {
       const result = await uploadDocument(uploadFile) as UploadResponse;
-
       setUploadMessage(`✓ Archivo subido exitosamente: ${result.filename}`);
       setUploadFile(null);
 
-      // Limpiar input file
+      // Reset input file
       const fileInput = document.getElementById('file-upload') as HTMLInputElement;
       if (fileInput) fileInput.value = '';
     } catch (error) {
@@ -56,7 +60,7 @@ export default function UploadPage() {
           Subir Documento
         </CardTitle>
         <CardDescription className="dark:text-gray-400">
-          Solo se aceptan archivos .txt
+          Se aceptan archivos .txt, .pdf, .docx y .odt
         </CardDescription>
       </CardHeader>
 
@@ -66,7 +70,7 @@ export default function UploadPage() {
             <input
               id="file-upload"
               type="file"
-              accept=".txt"
+              accept=".txt,.pdf,.docx,.odt"
               onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
               className="w-full px-4 py-3 border border-cyan-500/30 rounded-md dark:bg-gray-800/50 dark:border-cyan-500/50 dark:text-cyan-100 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-cyan-500/20 file:text-cyan-400 hover:file:bg-cyan-500/30 transition-all"
             />
@@ -98,23 +102,22 @@ export default function UploadPage() {
           <ul className="space-y-2 dark:text-cyan-100/80">
             <li className="flex items-start gap-2">
               <span className="text-cyan-400 mt-1">▸</span>
-              <span>Selecciona un archivo de texto (.txt) desde tu dispositivo</span>
+              <span>Selecciona un archivo (.txt, .pdf, .odt o .docx)</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-cyan-400 mt-1">▸</span>
-              <span>Haz clic en "Subir" para procesarlo</span>
+              <span>Haz clic en "Subir" para procesarlo e indexarlo</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-cyan-400 mt-1">▸</span>
-              <span>El documento será dividido en chunks para análisis</span>
+              <span>El sistema lo convertirá internamente a texto para análisis</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-cyan-400 mt-1">▸</span>
-              <span>Podrás consultarlo desde la sección de Chat</span>
+              <span>Consulta el documento desde la sección de Chat</span>
             </li>
           </ul>
         </div>
-
       </CardContent>
     </Card>
   );

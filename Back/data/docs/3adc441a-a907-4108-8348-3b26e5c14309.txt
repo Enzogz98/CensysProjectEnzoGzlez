@@ -1,0 +1,1064 @@
+UNT -FACULTAD DE PSICOLOGÍA  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Cuadernillo de Actividades Prácticas  
+Estadística Aplicada a la Psic ología (segunda parte ) 
+Estadística Inf erencial  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Equipo docente:  
+Prof. Adjunta:  Prof. Dra. Mariela V. de Konevky  
+Auxiliar Docente Graduada : Psic. María de la Paz Nieto Bartha buru 
+Auxiliar Docente Graduada : Psic. Mirta Romero  
+Ayudantes Estudiantiles : Iris Luz Mecchia O rtiz – Belén J. Santamaría  
+Recursos humanos Estudiantiles:  Lara Hidalgo - Ludmila Daniela Ramos .  
+Recursos humanos Graduado :    Maria Fernanda Santillan  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+1 
+   
+TRABAJO PRÁCTICO Nº 1  
+ 
+TEMA:  Estadístic a Inferencial y Psicología  
+ 
+Conceptos fundamentales  
+1) Inferencia  
+2) Estadística Inferencial  
+3) Población  
+4) Parámetro  
+5) Muestra  
+6) Muestra Probabilística  
+7) Estadístico  
+8) Estimación de parámetros  
+9) Comprobación de hipótesis  
+ 
+Definiciones básica s 
+Inferencia : Derivación a la qu e se llega por razonamiento.  
+Estadística inferencial : Parte de la estadística que engloba las estrategias que permiten i n-
+ferir las propiedades de un conjunto de datos empíricos (muestra) al co njunto total de datos 
+a los que representan (población).  
+Poblac ión (o universo): Conjunto de elementos (sujetos, objetos, entidades abstractas, etc.) 
+que p oseen una o más caract erísticas específicas en común . 
+Muestra : Subconjunto de elementos de una p oblación.  
+Muestra aleatoria  o probabilística : Subconjunto en el que  cada elemento de la p oblación 
+tiene una probabilidad igual, o una probabilidad cuantificable, de ser selecci onado.    
+Parámetro: Función definida sobre los valores numéricos de una población.   
+Estadístico: Función definida sobre los valores numéricos de u na muestra aleatoria.   
+Estimación de un parámetro : Cada estadístico describe la muestra aleatoria que se midió 
+y tiene un parámetro equivalente que describe la población de la que se seleccionó dicha 
+muestra.  A partir del cálculo de un estadístico se deter mina – con cierto grado de probabil i-
+dad- el valor del parámetro equivale nte.  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+2 
+ Prueba de hipótesis:  procedim iento mediante el cual se trata de  establecer con un grado 
+de probabilidad determinado, si una hipótesis es consistente con la información muestral o b-
+tenida.  
+ 
+Actividades Prácticas   
+1. Distinga los conceptos fundamentales que están presentes en el siguiente te xto:  
+“Un psicólogo de una empresa piensa que el ejercicio físico afecta la imagen qu e cada 
+miembro del personal administrativo tiene de sí mismo . Para investigar esta posibilidad 
+elige una muestra al azar de 14 empleados a los que hace participar en una experiencia. 
+Antes de comenzar la experiencia el psicólogo aplica un cuestionario para medir la im a-
+gen que cada uno tiene de sí mism o. Después de l a experiencia (los sujetos corren 20 
+minutos por día , 4 días por semana , durante 2 meses), aplica nuevamente el cuestionario. 
+La hipótesis del psicólogo es que el ejercicio influye en la propia imagen. Se obtuvieron 
+estos r esultados: 
+X 1=12 (antes) y 
+X 2 =15 (después), donde los resultados más altos c o-
+rresponden a mayor a utoestima. ” 
+ 
+Pregunta ¿...?  
+1. ¿Por  qué es legítimo el uso de   la  estadística en Psicología? (Ver Amón, Estadíst i-
+ca para psic ólogos 1, Capítulo I.)  
+ 
+Complete . 
+1.Un psicólogo laboral  desea conocer si los empleados de la  fábrica “Y ” que reciben 25 
+días de vacaciones son  más productivos durante el año  que los que reciben sólo 15 días. 
+Para ello  selecciona dos muestra s de tra bajadores  (según los días de vacaciones que ti e-
+nen) y registra su rendimiento  laboral (Muy Bueno -Bueno -Regular) . 
+a) La población es : 
+b) La variable es : 
+c) La medición que realiza el psicólogo es (cuantitat iva/cualitativa) : 
+d) El nivel de medición en la variable  cons iderada es : 
+ 
+2.En la comunidad  “Z”, un psicólogo clínico desea precisar la cantidad de jóvenes de 15 a 
+24 años que han inc urrido en adicciones.  
+a)   La población es : 
+b) La variable es : 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+3 
+ c) La medición que realiza el psicólogo es (cuantitat iva/cualitativa) : 
+d) El nivel de medición  en la  variable  consider ada es: 
+ 
+3.En el siguiente problema identifique si se trata de parámetros o estadísticos  (P-E): 
+En cierta universidad, el decano de una facultad necesita conocer el promedio de e s-
+tudiantes que asisten a clase s. El decano descubre:  
+a) En una muestra de  20 clases, el número promedio de estudiantes por clase es de 
+47. 
+b) En toda la facultad, el número promedio de estudiantes por clase es 34. 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+4 
+ TRABAJO PRÁCTICO Nº 2  
+ 
+TEMA:  Muestreo  
+ 
+Conceptos fundamentales  
+Población  
+Muestra  
+Unidad muestral  
+Muestreo  
+Muestra P robabilística  
+Muestra No Probabilística  
+Errores de muestreo y errores ajenos al muestreo  
+ 
+Actividades Prácticas  
+1.De la  lectura de la bibliografía que figura en el programa, extraiga información s obre:  
+❖ La importancia de la selección de una muestra.  
+❖ Tipos de errores al seleccionar una muestra.  
+❖ La aleatorización como base de la inferencia.  
+❖ Tipos de muestreo: Probabilístico                                        No Probabilístico  
+  Aleatorio simple                    Accidental  
+  Sistemático           Deliber ado o intenci onal 
+  Estratificado                                            Por cuotas  
+  Por Conglomerados  
+ 
+2.Diga si la siguiente afirmación define la función inferencial de la estadística . Justifique 
+adecu adamente su respuesta:  
+“La inferencia estadístic a consiste en formular  principios o generalizaciones sobre la base 
+de resultados de mue stras”.  
+ 
+3.Un psicólogo educacional desea e stimar e l promedio  obtenido por alumnos de c olegios 
+secundarios de San Miguel de Tucumán  en una prueba de Razonamiento Verbal . En este 
+ejemplo :  
+a)- ¿Cuál es la población?  
+b)- ¿Qué tipo de muestreo utilizaría?  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+5 
+ c)- ¿Cómo construiría la muestra?  
+ 
+4. ¿Qué dificultad se encuentra al no usar un tip o de muestreo probabilístico? Dé  un 
+ejemplo de ese tipo de muestreo.  
+ 
+5.Si para cada  una de las muestras elegibles dentro de una población determinada se  co-
+noce la correspondiente probabilidad de s elección, el muestreo que se realiza es:  
+a) Intencional; b) Al azar; c) Otro, ¿cuál?  
+ 
+6.Todo subconjunto obtenido de la población es:  
+a) Una muestra; b ) Una muestra representativa; c) Una muestra no representat iva. 
+ 
+7.Todos los conjuntos de objetos o elementos que poseen un cierto atributo común y o b-
+servable constituyen desde el punto de vista estadístico:  
+     a) Una muestra; b) Una población; c) Un grupo homogéneo.  
+ 
+8.Para efectuar un estudio, un psicólogo decide utilizar un muestreo estratificado . Para 
+ello, divide  la ciudad X en 4 zonas , tomando en cuenta su ubicación geográfica.  
+a)- ¿Cree Ud. que el procedimiento de muestreo utilizado le dará una me jor información 
+que si hubiera utilizado un muestreo aleat orio simple?  
+b)-Analice la variable de estratificación y sugiera otra.  
+ 
+9.Describa los pasos para obtener una muestra por  conglomerados de alumnos de 5° año 
+para investigar el problema v ocacional.  
+ 
+10.Un psicólogo social realiza entrevistas en el microcentro para extraer información de 
+los jóvenes en relación con los háb itos de salidas en los fines de semana.  
+a)- ¿Qué tipo de muestreo está utilizando en este caso? Justif ique. 
+b)- ¿Es válido realizar  inferencias sobre esta base?  
+ 
+11.Se desea hacer un estudio sobre preferencias en cuanto a la vestimenta en el marco 
+de una investigación sobre caracterí sticas de los adolescentes:  
+a)- ¿Cuál podría ser la población a estudiar?  
+b)- ¿Cómo relevaría la inform ación?  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+6 
+  
+12.A continuación se da la lista completa (iniciales de nombre y apellido) de todos los 
+alumnos r egulares de 4 cursos (A, B, C y D).  
+ 
+Curso A (n = 36) 
+CO   GR   BO   ES   AC   PO   PE    CE   SU     SE   AN   RE 
+UL    ER    VE   OB   GU  GH   ER   CG   DF    RE   TY   IO 
+TV   GT   BY   BP    PL   TH    JK   WE   QX   RW YP    GM 
+ 
+Curso B (n = 36) 
+YU   NM   QZ   TK   EB   SP   TH    SW   NM   MW   QT   ZO  
+PZ    HP    WH   NY VN  AV   XY    ZM   MA     PF    TD   DP 
+SD    QR    ER    DS   WE  RT   ÑT  PO    ÑL     PN     PR   TZ 
+ 
+Curso C  (n = 30) 
+ZC   CV   VV   NF   TR   YU   IO   IX   PO   PE   LS   BN  
+MA  SD   TG   FP    KJ    BW  BC  XV  WT  HF  DL  KS 
+NB   LN   AA  TN   UU    BV 
+ 
+Curso D (n = 33) 
+DF   ER   TT   HG   NV   NN   EF   DF   GK   LI   LO    
+GT   PL   PN   NB   FE    NG   ET   DF   NF   GH  RR   
+DT   SO   UJ   KL    BB    CD   FF   GH   TR   RR  TG  
+ 
+a)- Empleando un a tabla de números  aleatorios:  
+1)-Extraer una muestra aleatoria simple de 20 alumnos.  
+2)-Extraer una muestra estratificada no proporcional de 24 unidades.  
+3)-Extraer una mue stra estratificada proporcional . 
+4)-Extraer una muestra sistemática de 18 unidades.  
+ 
+13.Se desea extraer una muestra de 100 historias clínicas del registro diario de un hosp i-
+tal que contiene 2000  historias clínicas . El registro está formado por cuatro  tomos. Cada 
+tomo  corresponde a un año administrativo ( 2001, 2002, 2003, 2004 ). ¿Qué clase de 
+muestreo se obtiene en las siguie ntes situaciones?  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+7 
+ a) Se da un número progresivo a cada historia clínica, de 1 hasta  2000 ; luego de un bol i-
+llero que contiene 2000  fichas numeradas de 1 a 2000 , se extraen al azar 100 fichas que 
+corresponden a las hist orias clínicas.  
+b) Se toman 25 casos de cada tomo y con éstos se forma la muestra de 100 historias clí-
+nicas.  
+c) Se da   un número  progresivo  a  cada   historia  clínica  (del 1 al 2000 ) y al azar se el ige 
+un caso ;  resulta ser el caso Nº 13; sucesivamente se incluyen los casos  33, 53, 73, etc., 
+es decir , cada 20 hasta llegar a 100 casos.  
+ 
+14.En la ciudad “X” se resolvió esti mar el número pro medio de niños en edad escolar por  
+familia. A tal efecto se pensó efectuar un muestreo aleat orio simple tomando al azar niños 
+inscriptos en las escuelas primarias que funcionaban en esa ciudad . A cada niño así el e-
+gido, se le preguntó cuánt os hermanos en edad escolar tenían  y de esta manera se ca lcu-
+ló el promedio de niños en edad escolar para cada núcleo fam iliar. Diga:  
+a)-Cuál es la “población objet ivo” del estudio.  
+b)-Si coincide la “población objetivo ” con la que efectivamente se consider ó. 
+c)-¿Cuál es la unidad mue stral que se tomó en cuenta en este estudio ? 
+d)-Si la muestra así elegida es o no una muestra aleatoria simple.  
+e)-Si todas las unidades muestrales tuvieron la misma probabilidad de ser i ncluidas en la 
+muestra.  
+f)-Si hubo algún favoritismo en las elecciones . En caso afirmativo, cómo se dio según la 
+técnica de muestreo aquí e mpleada.  
+ 
+15.Para comparar dos métodos de capacitación  se escoge n al azar 30 trabajadores del 
+turno mañana y 30 del turno tarde de una compañía integrada  por 367 emple ados. Use 
+una tabla de números aleatorios para extraer la muestra de 30 trabajadores .  Luego, en 
+cada grupo se realiza la capacitación con un método diferente.   
+ 
+16.Investigadores que han realizado un estudio urbano en una ciudad, examinaron toda s 
+las casas ubicadas en manzanas seleccionadas aleatoriamente. ¿Constituye esto una 
+muestra aleatoria s imple de las casas de la ciudad?  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+8 
+  
+TRABAJO PRÁCTICO Nº 3  
+ 
+TEMA:  Distribución muestral de un estadístico. El caso de la distribución muestral de la 
+media.  
+ 
+Conceptos fundamentales   
+Parámetros  
+Estadísticos  
+Distribución de frecuencia  
+Distribución de probabilidad  
+Distribución muestral  de un estadístico  
+Distribución muestral  de medias (normal, t)  
+ 
+Actividades Prácticas  
+Algunas nociones de Probabilidad  
+1.Defina probabilidad desde un enfoque clásico o a priori  y desde un enfoque fr ecuencial 
+o a post eriori. Dé un ejemplo de cada uno de ellos.  
+ 
+2.Indique la respuesta correcta:  
+La probabilidad de un evento cualquiera está comprendida entre:  
+a) 0 y 1; b) -1 y 1; c) 0 e infinito  
+La suma de la probabilidad de dos eventos es igual a  
+a) 0; b) 1; c) 0,50   
+ 
+Preguntas  ¿...? 
+1. ¿Por qué  la probabilidad es importante para la Estadística Inferencial?  
+2.Si Ud. obtuviera u na probabilidad de 0,02 ¿cómo interpretaría este  resultado?  
+ 
+Distribución muestral  
+1.Una población finita está formada por las siguientes medidas: 3,5,6,2,1,9,8,5,7,4,1  
+Mediante un muestreo aleatorio simple se obtuvo la muestra: 8,4,1,3  
+a) Calcule . 
+b) Calcule   
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+9 
+ c) Calcule
+X  
+d) Calcule s 
+e) Diga cuál es la media de todas las medias obtenibles de muestras de 4 unidades e x-
+traídas de esta población  (μx) 
+f) ¿Cuándo se aplica el Teorema Central del Límite para determinar a priori  la forma y los 
+parámetros de la distribución de muestreo de  las medias de muestras  de tamaño n? E x-
+plique su re spuesta.  
+ 
+2.Revise las características de las distribuciones de probabil idad: normal y t.  
+ 
+3.Una población consta de los números 2, 3 y 4 . Haga una lista de todas las muestras p o-
+sibles de n=2, suponiendo q ue la muestra es seleccionada con reemplazo.  
+Verifique que 
+ =
+X  y que  
+X2 = 
+n/2  
+ 
+Preguntas ¿...?  
+1. ¿Qué se entiende por distribución  muestral de un estadístico?  
+2. ¿Qué car acterísticas tiene una distribución de puntajes z?  
+3. ¿Qué características tiene una distribución de puntajes t?  
+ 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+10 
+  
+TRABAJO PRÁCTICO Nº 4  
+ 
+TEMA:  Estimación de Parámetros. El caso de la estimación de la media poblaci onal ( ) 
+ 
+Conceptos fundamentales  
+Pará metros  
+Estadísticos  
+Distribuci ón muestral de los estadísticos  
+Distribución muestral de la media  
+Estimador  
+Estimación  
+Estimación puntual  
+Estimación por intervalos  
+Nivel de confianza  
+Límites de confianza  
+Error estándar de un estadístico y precisión en la es timación  
+ 
+Actividades Prácticas  
+1.La distribución de un índice estadístico cualquiera  (
+X, Md, s) obtenida analizando k 
+muestras aleatorias de n observaciones cada una, da lugar a una distribución frecuencial:  
+a) de estadísticos; b)  paramétrica  
+ 
+2.La desviación estándar de las distribuciones frecuenciales de muestreo se denomina 
+convenci onalmente:  
+a) error prob able; b) error estándar; c)  desviación típica  
+ 
+3.Explique el teorema que establece que el valor de la media de la distribución muestral 
+de medias ( 
+X) coincide con 
+ .  
+ 
+4.Se tomó una muestra de 60 estudiantes que ingresaron a un establecimiento secund a-
+rio. Se les aplicó una prueba de memoria visual y se obtuvo un a 
+X=84 y s=10 . Estime el 
+intervalo de confianza del 99% para μ. Interprete.  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+11 
+ 5.En una muestra de quince niños se obtuvieron lo s siguientes resultados sobre  cantidad 
+de palabras percibidas : 5, 6, 4, 7, 5 , 2, 3, 4, 4, 8, 7, 6, 5, 9, 5  
+a)- Hallar el intervalo de confianza de 0,95 para μ. 
+b)-¿Es muy p oco probable que la media de la población sea mayor de qué valor?  
+ 
+6.En una pr ueba administrada a 16 personas se obtuvo  
+X =100  y s =24 .  En el n ivel de 
+confia nza 0, 95 : 
+a)-¿Cuáles son los límites del intervalo de confianza para μ? 
+b)-Si se considera el intervalo de confianza 0, 99  ¿μ es por lo menos tan grande como 
+qué valor?  
+ 
+7.De una población se obtiene una muestra aleatoria de 226 sujetos a los que se les a d-
+ministró una prueba de psi comotricidad. La media  en esta prueba es  igual a 20 y la s uma-
+toria d e los desvíos al cuadrado con respecto a la media es igual a 3600 . Se desea e sti-
+mar el intervalo de confianza para  con una pr obabilidad de 0,95. 
+ 
+8.Los mismos 226 sujetos fueron sometidos a una prueba de conocimientos de mecán ica. 
+Se obtuvo una media de 54 y una varianza estimada de 25 unidades. Se desea estimar el 
+intervalo de co nfianza de 0,99 para μ.  Interprete.  
+ 
+9.Puntajes obtenidos por una muestra de 20 alumnos de una prueba de Razonamiento 
+Abstracto: 40-36-38-41-48-50-37-43-35-38-40-42-52-53-42-36-38-45-44-52 
+a) Estimar   mediante un intervalo de confianza de 0,99. 
+b) Interpretar el resultado . 
+ 
+10.A una muestra de 15 niños de 4to grado se le aplicó un test de Razonamiento Verbal. 
+Se obtuvo  
+X = 36 y  s=6 . Calcular el intervalo de confianza del  95 %   para  . 
+ 
+ 
+Preguntas ¿...?  
+1. ¿Qué se entiende por confiabilidad de los e stadísticos?  
+2. ¿A qué se denomina error estándar? Explique . 
+3. ¿Qué significa p =0,99 en un intervalo de confianza?  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+12 
+ 4.¿Por qué la media muestral es un buen estimador de  ? 
+5. ¿Cómo se denomina la distrib ución de un estadístico ? 
+6.¿Estimar   significa calcular su valor exacto?  
+7.Si Ud. toma 100 muestras de una población y calcula intervalos de confianza de 0,95  
+para todas las muestras : ¿Aproximadamente cuántos de los intervalos espera que no co n-
+tengan el valor real del parámetro  ? 
+ 
+ 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+13 
+ TRABAJO PRÁCTICO Nº 5 
+ 
+TEMA:  Comprobación de Hipótesis  
+ 
+Conceptos fundamentales  
+Hipótesis  
+Hipótesis científica  
+Hipótesis opuestas: hipótesis nula y alternativa  
+Pasos en la comprobación de hipótesis estadísticas  
+Prueb as estadísticas :  
+Pruebas paramétricas y no paramétricas  
+Distribución de muestreo de un estadístico  
+Errores en la decisión: error tipo I y error tipo II  
+ 
+Preguntas ¿ ?  
+1. ¿Qué pasos deben seguirse para comprobar una hipót esis? 
+2.Al comprobar las hipótesis, ¿qué errores se pueden cometer?  
+3. ¿Qué es una hipótesis de nulidad?  
+4. ¿Qué es el nivel de significación?  
+5. ¿Cuál es la diferencia entre pruebas estadísticas unilateral es y bilateral es? 
+6.Si un investigador psicólogo rechaza una hipótesis nula diciendo que un tratamie nto es 
+efectivo cuando en realidad no lo es , ¿qué se puede decir de esta conclusión ? 
+7. ¿Por qué es importante conocer los supuestos teóricos de un a prueba estadística ? 
+8. ¿Qué relación existe entre los errores tipo I y tipo  II?  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+14 
+  
+TRABAJO PRÁCTICO Nº 6  
+ 
+TEMA:  Pruebas estadísticas paramétricas  
+ 
+Conceptos 
+Pruebas estadísticas  
+1.Prueba de d iferencia de dos medias 1 - 2  con observaciones independientes  y con:  
+        a) 1 y 2  supuestamente conoc idas.  
+     b) 1 y 2  supuestamente de sconocidas  pero distintas entre sí.  
+     c) 1 y 2  desconoci das pero supuest amente iguales . 
+2.Análisis de v arianza simple . 
+ 
+Preguntas ¿...?  
+1. ¿Qué se entiende por "distribución muestral de la diferencia de medias "? 
+2. ¿Qué características presenta la distribución de diferencia de medias?  
+3. ¿La distribución muestr al de diferencia s de medias es siempre una distribución normal?  
+4. ¿Qué se entiende por prueba  estadística ? 
+5. ¿Qué pruebas paramétricas conoce  Ud.? 
+6. ¿Por qué se denominan pruebas paramétricas? Señale las  características princip ales. 
+7. ¿Cuáles son los s upuestos de estas  pruebas ? ¿Cuándo puede n utilizarse?  
+8. ¿Qué pasos deben seguirse en la aplicación de  t? 
+9. ¿Cuándo podemos sentirnos seguros de que una diferencia entre dos medias es lo 
+bastante grande como para ser cons iderada real y confiable?  
+10. ¿Cuándo se utiliza el Análisis de variancia simple?  
+11. ¿Cuáles son los supuestos en el Análisis de variancia simple?  
+ 
+Actividades Prácticas  
+1.A una muestra de varones y otra de mujeres se les aplicó una prueba de Aptitud Mec á-
+nica. Los resultados fueron los siguientes:  
+Varón   Mujer  
+n=40    n=40  
+X
+v=38 
+X m=34 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+15 
+ s=8    s=7 
+¿Tienen los varones mejor rendimiento en la prueba que las mujeres? (=0,01). Formule 
+Ha y Ho.  
+ 
+2.La diferencia entre dos medias es de 4 y 
+XD =3. Ambas son muestras pequeñas  (n1=15 
+y n2=20).  Ha  dice que existen diferencias entre las medias:  
+a)- ¿Es la diferencia obtenida significativa en el nivel de  0,05? 
+b)-¿Utilizaría una prueba uni o bidireccional?  
+ 
+3.Se aplicó una prueba de Hábit os de Estudio a una muestra de adolescentes del Colegio 
+A y otra del Colegio B. Se sabe que las observaciones son independientes y 1 y 2 des-
+conocidas pero supuestamente iguales. Los r esultados fueron:  
+Muestra A  Muestra B  
+n=25    n=28  
+X
+A=35  
+X B =34 
+s=10    s=8 
+¿Existen diferencias en cuanto a los hábitos de estudio? Nivel de significación 0,01. For-
+mule las hipótesis H a y Ho.   
+ 
+4.Para los siguientes datos:  
+Grupo I   Grupo II  
+n=100     n=110  
+X
+I=43  
+X II=39 
+ s=5    s=4 
+a)-Formule Ha unidireccional.  
+b)-Formule Ho.  
+c)-Calcule la prueba estadística correspondiente ( =0,05) . Exprese por qué la el igió. 
+d)-Interprete el resultado.  
+ 
+5.La diferencia entre dos medias es de 3,60 y DX  es igual a 3. Se sostiene el s upuesto 
+de que las observaciones son independientes y 1 y 2  supuestamente con ocidas . ¿Es la 
+diferencia obtenida significativa en el nivel de significación de 0,05? (n1=40 y n 2=45) 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+16 
+ 6.En dos muestras de estudiantes secundario s se obtuvieron las siguientes 
+X y s en un 
+test colect ivo de inteligencia.  
+ 
+  Muestra A   Muestra B  
+  
+X A=48,52   
+X B=53,61  
+ s=10,60   s=15,35  
+  n=58    n=72  
+¿Es significativa la diferencia observ ada en el nivel de 0,05? Interprete.  
+ 
+7. En un examen de ortografía en una escuela primaria la puntuación media de 32 niños 
+fue de 72 con una desviación típica de 8, mientras que la puntuación media de 36 niñas 
+fue de 75 con una desviación típica de 6. For mule una hipótesis  inicial un idireccional y la 
+hipótesis de nulidad. Utilice la prueba de significación correspondiente para  =0,05 . (Su-
+puestos: observaciones independientes, 1 y 2 desconocidas  pero supuestamente de-
+siguales). Interprete el resultado.  
+ 
+8. Se toman 3 grupos y se les presenta diversas estimulaciones visuales para expr esar lo 
+que representa la imagen obteniéndose los siguientes tiempo s de reacción (segundos)  
+frente a los mismos : 
+ 
+Estímulo de  
+un solo c olor Estímulo de  
+dos colores Estímulo  de 
+tres colores 
+20 27 24 
+18 35 22 
+26 18 25 
+19 24 20 
+26 28 21 
+24 25 34 
+ 
+a) ¿Qué prueba puede utilizarse para comprobar la hipótesis de que los estímulos no 
+inciden en el tiempo de reacción? ¿Por qué?  
+b) Explique qué procedimiento utilizaría para averiguar  si el resultado obtenido en la 
+prueba es significativo o no al nivel de significación de 5 %.   
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+17 
+  
+9.En una asignatura se han empleado , en 4 grupos paralelos, 4  textos diferentes de Ps i-
+cología. La siguiente tabla registra las puntuaciones finales de los est udiantes en los  4 
+grupos , calificados con puntajes de 1 a 100 en una prueba objetiva de conocimie ntos. 
+ 
+G1 G2 G3 G4 
+60 80 97 67 
+80 81 84 84 
+69 73 93 90 
+65 69 79 78 
+ 
+a) ¿Qué prueba estadística puede utilizarse en este caso?  
+b) ¿Cómo interpretaría un resultad o significativo? ¿Y uno no significativo?  
+c) ¿Cuál es la variable dependiente y la independiente en este ejemplo?  
+ 
+Preguntas ¿...?  
+En una prueba de hipótesis:  
+1.Si obtenemos un valor z igual a  1,50 para un nivel de significación  de 0.05 ¿podemos 
+rechazar la h ipótesis de nulidad?  
+2.Si obtene mos un valor t igual a  1,50 para un nivel de significación  de 0.05 ¿podemos  
+rechazar la hipótesis de nulidad? ¿Qué información adicional necesitaría con ocer para 
+responder a esta pregu nta?  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+18 
+  
+TRABAJO PRÁCTICO Nº  7 
+ 
+TEMA:  Pruebas estadísticas no paramétricas  
+ 
+Conceptos fundamentales  
+Pruebas estadísticas no paramétricas  
+Prueba de 2 de bondad de adaptación a una distribución uniforme  
+Prueba de 2 de independencia  
+Prueba de la Mediana para muestras independientes  
+ 
+Actividades P rácticas  
+1.A dos muestras, una de 12 estudiantes varones de  una escuela prep aratoria rural y otra 
+de 16 varones de  una escuela preparatoria  urbana , se les aplicó un test para medir su 
+madurez mental.  
+Los resultados fueron los siguientes:  
+  
+Zona  
+Urbana Zona  
+Rural  
+35 
+26 
+27 
+21 
+27 
+38 
+23 
+25 
+25 
+27 
+45 
+46 
+33 
+26 
+46 
+41 29 
+50 
+43 
+22 
+42 
+47 
+42 
+32 
+50 
+37 
+34 
+31 
+ 
+ 
+¿Puede utilizar en este ejemplo la prueba de la Md? En caso afirmativo calcule la prueba 
+e interpr ete el resultado ( =0.05) 
+ 
+ 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+19 
+ 2. Unos investigadores sociales desean comparar las respuestas a una pregunta re fe-
+rida a la instalación de una fábrica con posibles efectos de contaminación del m e-
+dio ambiente, entre un grupo de vecinos de la zona . Se obtuvieron los siguientes 
+result ados: 
+ 
+Vecinos de la zona f abril    
+En desacuerdo       De acuerdo    En desacue rdo 
+En desacuerdo    De acuerdo    De acuerdo  
+En desacuerdo    Indiferente    Indiferente  
+De acuerdo     Indiferente    De acuerdo  
+En desacuerdo    En desacuerdo    Indiferente  
+En desacuerdo    En desacuerdo   En desac uerdo  
+Indiferente     Indiferente    En desacuerdo  
+a)-Señale cuál es la variable que se analiza    
+b)-¿Cuáles son  las categorías de esa variable?  
+c)-¿Las respuestas de los vecinos de la zona indican una tendencia en la opinión?  Calcu-
+le la prueba estadística que Ud. considere más adecuada y establezca una conclusión 
+(=0,05). 
+ 
+3.Se administr ó un sociograma a niños  de diversas edades. El examinador e ncontró que, 
+según el sexo , se elige “como amigo” a los niños de más o de menos edad. Si se dividen 
+los niños por  la mediana de la edad se obtienen los siguientes resultados:  
+                                                                    Sexo  
+Edad de los niños eleg idos Varones  Mujeres 
+Sup. a la Md  20 8 
+Inf. a la Md   6 22 
+ 
+a)-¿Difieren las elecciones de los am igos de más o menos edad según sea varón o m u-
+jer? =0,01 
+b)- Formule las hipótesis, aplique la prueba correspondiente e interprete el resultado o b-
+tenido.  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+20 
+ 4.A una muestra aleatoria  de  niños que concurren a  tres i nstituci ones (A, B y C) con di s-
+tintos métod os de enseñanza se les aplicó un test de coordinación viso -motriz. Se obti e-
+nen los siguientes resu ltados: 
+                
+       
+ 
+                
+  Instit u-
+ción 
+educat iva 
+ 
+a) ¿Depende el rendimiento académico de la institución que imparte la enseñanza? 
+=0,05  
+ 
+Preguntas ¿...?  
+1.¿Qué diferencia existe entre pruebas paramétricas y no param étricas?  
+2.¿Qué pruebas no paramétricas conoce?  
+3.¿En qué c onsiste la prueba de ji cuadrado de bondad de ajuste a una distribución un i-
+forme ? ¿Qué requisitos son necesarios para su apl icación?  
+4.¿Cuándo se utiliza la prueba de ji cuadrado como prueba de independencia?  ¿Cuántas 
+variables se tienen en cuenta al aplic ar esta prueba?  
+5.¿Cuá ndo se utiliza la prueba de la m ediana para muestras independientes?  
+ Rendimiento  A B C Subtotal  
+Muy Bueno  6 17 4 27 
+Bueno  13 5 11 29 
+Regular  2 3 6 11 
+Subtotal  21 25 21 Total: 77  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+21 
+   
+TRABAJO PRÁCTICO Nº 8  
+ 
+TEMA:  Estadística Inferencial y Psicología  
+ 
+Analice  la siguiente frase : “La Estadística Inferencial constituye un instrumento muy impo r-
+tante para el desarrollo de la psicología , pero sólo si va acompañada por la reflexión crít i-
+ca y la toma de decisiones personales ". Luego elabore con el gru po un trabajo escrito s o-
+bre esta temática.   
+Comente acerca de los principios éticos que son necesario s en una investigación psicol ó-
+gica en la que se aplican procedimientos estadísticos.  
+ 
+****************************************************************************  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+22 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Anexo fó rmulas  
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+23 
+ Estimación de  cuando se desconoce σ y las muestras son independ ites: 
+ 
+ 
+n≥30  
+o Establecer el nivel de confianza  ( 0,95 o 0,99 según corresponda).  
+o Para el nivel de confianza establecido, determinar el valor absoluto de  z .      
+o Calcular el error estándar de 
+X : 
+xˆ= s / 
+n ,   donde  s  es la estimación de  .  
+o Calcular el error máximo: I zI
+xˆ        
+o Establecer   L. inf.: 
+X - IzI
+xˆ 
+o Establecer   L. sup.: 
+X + IzI 
+xˆ 
+o Intervalo de confianza: Valores comprendidos entre los límites inferior y sup e-
+rior.     
+ 
+ 
+n <30                  
+o Establecer el nivel de confianza 1-. (1- = 0,95 o 0,99  según corre sponda).  
+o Para el nivel de confianza 1-  y para gl= n-1, determinar el valor absol uto de  
+t.      
+o Calcular el error estándar de 
+X : 
+xˆ=  /
+1n−     o bien  
+xs = s / 
+1n−  
+o Calcular el error máximo I t I 
+xˆ 
+o Establecer  L. inf. : 
+X - It I 
+xˆ  
+o Establecer   L. sup. = 
+X + It I 
+xˆ  
+o Intervalo de confianza: Valores comprendidos entre los límites inferior y s uperio r. 
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+24 
+ Comprobación de hipótesis  
+ 
+Pruebas Paramétricas  
+ 
+a) Prueba de diferencia de dos medias con observaciones independientes, cua ndo 1 
+y 2 son supuestamente desconocidas y diferentes entre s í. (Muestras grandes)      
+ 
+=XDˆ
+22
+2 12
+1 / / n s n s+
+ 
+ 
+ 
+                                           z =  
+22
+2 12
+12 1 2 1
+/ /) (
+n s n sX X
++−−−                
+             donde,  
+1-2 = 0 según Ho 
+2
+1s
+ y  
+2
+2s  son estimaciones aproximadas de ²1 y ²2 
+ 
+α Bidireccional  Unidireccional  
+0,05 ±1,96  ±1,65  
+0,01 ±2,58  ±2,33  
+ 
+b) Prueba de diferencia de dos medias con observaciones independientes, cua ndo 1 
+y 2  son  supuest amente  desconocidas e iguales . (Muestras pequeñas)  
+ 
+ˆ
+=
+2 n n1)s (n 1)s (n
+2 12
+222
+1 1
+−+−+−  
+ 
+=XDˆ
+2 n n1)s (n 1)s (n
+2 12
+222
+1 1
+−+−+−  
+2 12
+.nnn n1+  
+ t = 
+XDX X
+
+ˆ  ) (2 1 2 1 −−−            
+ 
+                        
+    
+                        
+ 
+212 22 1 2 1
+..) (
+nnnn
+2nn1)s (n 1)s(nXX
+1
+2 12
+22
+1 1t
++
+−+−+−−−−= 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+25 
+  
+ 
+Pruebas no paramétricas  
+ 
+²  como prueba de Bondad de Ajuste a una Distribuc ión Uniforme  
+ 
+                                                                                
+        ²= ∑(Fo i - Fe i )²/Fei              
+ 
+          i=1 
+                   donde,                
+                       
+ Fo i :  Frecuencia observada en cada categoría   
+ Fei  :  Frecuencia esperada en cada categoría  
+ 
+gl= c – 1 
+ 
+(c= columna)  
+ 
+² como Prueba de Ind ependencia  
+ 
+                         F    c 
+ ²= ∑ ∑( Fo i j – Fe i j )² / Fei j    
+                               
+  i=1  j=1  
+ 
+                              f      c 
+donde,   ∑  ∑ representa la necesidad de sumar sobre toda la tabla ( f  filas y c co-
+lumnas)  
+i=1  j=1  
+ 
+Fo ij :  Frecuencia observada para cada celda   
+Feij  :  Frecuencia esperada para cada celda  
+gl= (c -1) .( f  - 1) 
+ 
+(c=columna, f=fila)  
+ 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+26 
+  
+Prueba de la Mediana  
+Cuando n100: 
+ 
+ ²=
+) )( )( )( () (2
+dbcadcbabc adn
+++++−          GL= 1  
+  
+Cuando n<100  
+                                                                 
+Fórmula con corrección por continuidad que mejora la aproximación de la distribución del e s-
+tadístico ²  a la di stribución teórica de ²: 
+ 
+        ²=
+) )( )( )( ()2// (/2
+dbcadcban bc adn
+++++−−          GL= 1            
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+27 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Anexo tablas  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+28 
+ Tabla 1: números aleat orios 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+29 
+ Tabla  2: distribución t de Stud ent 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+30 
+ Tabla  3: distribución Ji cuadrado  
+ 
+ 
+ 
+ 
+ 
+Universidad Nacional de Tucumán  
+Facultad de Psicología  
+ 
+31 
+ Tabla 4: Dist ribución F  
+α=0,05  
+ 
+α=0,01 
+ 

@@ -3,3 +3,6 @@ uvicorn[standard]
 numpy
 python-multipart
 httpx
+pypdf2
+python-docx
+odfpy
