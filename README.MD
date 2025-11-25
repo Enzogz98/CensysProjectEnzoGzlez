@@ -32,7 +32,7 @@ Para ejecutar el sistema RAG de forma correcta, la PC debe cumplir:
 
 # 🧠 **CENSYS — Sistema RAG Local por Documento**
 
-Censys es un sistema de consulta inteligente que permite cargar documentos, procesarlos localmente y realizar preguntas con un chatbot usando **IA completamente offline** gracias a Ollama.
+El RAG es un sistema de consulta inteligente que permite cargar documentos, procesarlos localmente y realizar preguntas con un chatbot usando **IA completamente offline** gracias a Ollama.
 
 👉 Cada computadora tiene **sus propios documentos e índices**, nada se comparte automáticamente.
 
