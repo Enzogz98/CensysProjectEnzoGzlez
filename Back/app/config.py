@@ -1,9 +1,19 @@
 import os
 
+# ==========================
+#  CONFIG GENERAL RAG
+# ==========================
+
+# Ollama API URL
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-LLM_MODEL = os.getenv("LLM_MODEL", "llama3")
+
+# Modelo PRINCIPAL (LLM) — el que responde
+LLM_MODEL = os.getenv("LLM_MODEL", "llama3:instruct")
+
+# Modelo para embeddings — mxbai es el correcto y recomendado
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "mxbai-embed-large")
 
+# Directorios de almacenamiento
 DATA_DIR = "data"
 DOCS_DIR = os.path.join(DATA_DIR, "docs")
 INDEX_DIR = os.path.join(DATA_DIR, "indexes")

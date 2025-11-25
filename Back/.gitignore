@@ -3,3 +3,7 @@ __pycache__/
 *.log
 *.sqlite
 .env
+# RAG data folders
+data/docs/*
+data/indexes/*
+data/docs.json

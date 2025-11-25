@@ -81,34 +81,29 @@ export async function uploadDocument(file: File) {
 }
 
 // ---------- QUERY DOCUMENT ----------
-export async function queryDocument(documentId: string, question: string) {
-  const available = await checkApiAvailability();
+export async function queryDocument(id: string, question: string) {
+  console.log("➡️ queryDocument() ejecutado");
+  console.log("  - ID:", id);
+  console.log("  - Pregunta:", question);
 
-  if (!available) {
-    return {
-      answer: MOCK_RESPONSES[Math.floor(Math.random() * MOCK_RESPONSES.length)],
-      sources: ["Chunk simulado 1", "Chunk simulado 2"],
-    };
-  }
-
-  const res = await fetch(`${API_BASE}/query`, {
+  const response = await fetch(`${API_BASE}/query`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ document_id: documentId, question }),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ document_id: id, question }),
   });
 
-  if (!res.ok) throw new Error("Error en la consulta RAG");
+  console.log("⬅️ Respuesta HTTP completa:", response);
 
-  const backendData = await res.json();
+  const json = await response.json().catch(err => {
+    console.error("❌ Error parseando JSON:", err);
+    return null;
+  });
 
-  // El backend devuelve: sources: [string, string]
-  return {
-    answer: backendData.answer,
-    sources: backendData.sources || [],
-  };
+  console.log("📦 JSON recibido:", json);
+
+  return json;
 }
+
 export async function deleteDocumentApi(documentId: string) {
   const available = await checkApiAvailability();
 
