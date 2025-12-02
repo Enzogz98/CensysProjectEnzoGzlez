@@ -6,7 +6,6 @@
 
 El sistema sigue un flujo estricto de **ETL (Extract, Transform, Load)** para asegurar que la IA "lea" correctamente tus documentos. Este proceso ocurre 100% en local cada vez que subes un archivo.
 
-```mermaid
 graph TD
     %% Estilos para dar color y jerarquía
     classDef file fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
@@ -21,7 +20,8 @@ graph TD
     %% Subgrafo de Transformación
     subgraph Chunking [✂️ Estrategia de Fragmentación]
         direction TB
-        Strategy[Ventana Deslizante<br/>Size: 220 words | Overlap: 40 words]:::proc
+        %% CORRECCIÓN AQUÍ: Se agregaron comillas dobles para proteger el pipe |
+        Strategy["Ventana Deslizante<br/>Size: 220 words | Overlap: 40 words"]:::proc
         Chunks[🧩 Lista de Chunks]:::file
         Strategy --> Chunks
     end
