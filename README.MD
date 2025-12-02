@@ -6,42 +6,7 @@
 
 El sistema sigue un flujo estricto de **ETL (Extract, Transform, Load)** para asegurar que la IA "lea" correctamente tus documentos. Este proceso ocurre 100% en local cada vez que subes un archivo.
 
-graph TD
-    %% Estilos para dar color y jerarquía
-    classDef file fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    classDef proc fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,rx:5,ry:5;
-    classDef db fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
 
-    %% Nodos Principales
-    Input[📄 Archivo Original<br/>PDF / DOCX / ODT]:::file
-    Extract[[⚙️ Extracción y Limpieza]]:::proc
-    Text(📝 Texto Plano Normalizado):::file
-    
-    %% Subgrafo de Transformación
-    subgraph Chunking [✂️ Estrategia de Fragmentación]
-        direction TB
-        %% CORRECCIÓN AQUÍ: Se agregaron comillas dobles para proteger el pipe |
-        Strategy["Ventana Deslizante<br/>Size: 220 words | Overlap: 40 words"]:::proc
-        Chunks[🧩 Lista de Chunks]:::file
-        Strategy --> Chunks
-    end
-
-    %% Subgrafo de Vectorización
-    subgraph Embeddings [🧠 Vectorización]
-        direction TB
-        Model[[mxbai-embed-large]]:::proc
-        Vectors[🔢 Vectores Matemáticos]:::file
-        Model --> Vectors
-    end
-
-    Storage[(💽 Vector Store Local<br/>Índice .pkl)]:::db
-
-    %% Conexiones del Flujo
-    Input --> Extract
-    Extract -->|Eliminar ruido| Text
-    Text --> Strategy
-    Chunks --> Model
-    Vectors -->|Indexado| Storage
 
     
 1. Ingesta y Extracción
