@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { MessageSquare, Send } from 'lucide-react';
+// 1. Agregamos Loader2 a las importaciones
+import { MessageSquare, Send, Loader2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -35,9 +36,10 @@ export default function ChatPage() {
     loadDocuments();
   }, []);
 
+  // 2. Agregamos 'loading' a las dependencias para que haga scroll al mostrar el spinner
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, loading]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -64,12 +66,11 @@ export default function ChatPage() {
     setLoading(true);
 
     try {
-const data = await queryDocument(selectedDocId, currentQuestion);
-
+      const data = await queryDocument(selectedDocId, currentQuestion);
 
       const assistantMessage: Message = {
         type: 'assistant',
-        content: data.answer // <-- SOLO la respuesta interpretada
+        content: data.answer
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
@@ -130,7 +131,7 @@ const data = await queryDocument(selectedDocId, currentQuestion);
 
         <CardContent>
           <div className="h-[500px] overflow-y-auto mb-4 space-y-4 p-4 bg-gray-800/30 rounded-md border border-cyan-500/20">
-            {messages.length === 0 ? (
+            {messages.length === 0 && !loading ? (
               <div className="flex items-center justify-center h-full">
                 <p className="dark:text-cyan-100/40 text-center">
                   Selecciona un documento y comienza a hacer preguntas...
@@ -154,6 +155,19 @@ const data = await queryDocument(selectedDocId, currentQuestion);
                     </div>
                   </div>
                 ))}
+
+                {/* 3. Bloque de Loading Visual */}
+                {loading && (
+                  <div className="flex justify-start">
+                    <div className="bg-gray-800/70 border border-cyan-500/30 p-4 rounded-lg flex items-center gap-3">
+                      <Loader2 className="h-5 w-5 animate-spin text-cyan-400" />
+                      <span className="text-cyan-400/80 text-sm animate-pulse">
+                        Analizando documento...
+                      </span>
+                    </div>
+                  </div>
+                )}
+                
                 <div ref={messagesEndRef} />
               </>
             )}
@@ -166,7 +180,7 @@ const data = await queryDocument(selectedDocId, currentQuestion);
               onKeyPress={handleKeyPress}
               placeholder="Escribe tu pregunta... (Enter para enviar)"
               rows={3}
-              disabled={!selectedDocId}
+              disabled={!selectedDocId || loading} // Deshabilitar si está cargando
               className="dark:bg-gray-800/50 dark:border-cyan-500/50 dark:text-cyan-100 dark:placeholder-gray-500 focus:border-cyan-400 transition-all resize-none"
             />
 
@@ -176,7 +190,11 @@ const data = await queryDocument(selectedDocId, currentQuestion);
               className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white shadow-lg shadow-cyan-500/50 disabled:opacity-50 disabled:shadow-none transition-all duration-300"
               size="icon"
             >
-              <Send className="h-5 w-5" />
+              {loading ? (
+                <Loader2 className="h-5 w-5 animate-spin" /> 
+              ) : (
+                <Send className="h-5 w-5" />
+              )}
             </Button>
           </div>
         </CardContent>

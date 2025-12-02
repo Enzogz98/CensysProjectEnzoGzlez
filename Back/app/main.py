@@ -1,17 +1,33 @@
 import uuid
 import os
 import httpx
+from contextlib import asynccontextmanager  # <--- 1. NUEVO IMPORT
 from fastapi import FastAPI, UploadFile, File, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 
-from .storage import DocumentStore, delete_document   # <-- FALTABA ESTO
+from .storage import DocumentStore, delete_document
 from .schemas import DocumentMetadata, DocumentListResponse, QueryRequest, QueryResponse
-from .rag import build_index, answer
+from .rag import build_index, answer, preload_models  # <--- 2. IMPORTA preload_models
 from .config import DOCS_DIR
-
-from mimetypes import guess_extension
 from .text_extractor import extract_text
-app = FastAPI(title="RAG PoC Backend")
+from mimetypes import guess_extension
+
+# --- 3. DEFINIR EL LIFESPAN ---
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Lo que pongas aquí se ejecuta AL INICIAR el servidor
+    try:
+        await preload_models()
+    except Exception as e:
+        print(f"Advertencia: No se pudo pre-cargar Ollama: {e}")
+    
+    yield  # Aquí es donde el servidor corre y atiende peticiones
+    
+    # (Opcional) Lo que pongas aquí se ejecuta al APAGAR el servidor
+    print("Apagando servidor RAG...")
+
+# --- 4. CONECTARLO A LA APP ---
+app = FastAPI(title="RAG PoC Backend", lifespan=lifespan) # <--- AGREGA lifespan=lifespan
 
 app.add_middleware(
     CORSMiddleware,

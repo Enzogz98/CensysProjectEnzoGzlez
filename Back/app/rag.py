@@ -8,7 +8,9 @@ from .config import OLLAMA_BASE_URL, EMBEDDING_MODEL, LLM_MODEL
 #  Chunking de texto
 # ==========================================================
 
-def chunk_text(text: str, chunk_size: int = 220, overlap: int = 40) -> list[str]:
+# Aumenta el overlap para que no se corten frases a la mitad
+def chunk_text(text: str, chunk_size: int = 3000, overlap: int = 200) -> list[str]:
+    # ... (tu código actual está bien, solo cambia los defaults arriba)
     if not text:
         print("❌ chunk_text recibió texto vacío")
         return []
@@ -45,7 +47,7 @@ async def embed_texts(texts: list[str]) -> np.ndarray:
         return np.zeros((0, 0), dtype="float32")
 
     vectors = []
-    timeout = httpx.Timeout(60.0, read=60.0, write=30.0, connect=10.0)
+    timeout = httpx.Timeout(60.0, read=300.0, write=30.0, connect=10.0)
 
     async with httpx.AsyncClient(timeout=timeout) as client:
         for idx, t in enumerate(texts):
@@ -131,7 +133,7 @@ async def build_index(doc_id, text, store, chunk_size=220, overlap=40):
 #  Responder
 # ==========================================================
 
-async def answer(store, doc_id, question, top_k=3):
+async def answer(store, doc_id, question, top_k=15):
 
 
     index = store.load_index(doc_id)
@@ -150,29 +152,42 @@ async def answer(store, doc_id, question, top_k=3):
 
     sims = cosine_sim(q_emb, embs)
     if sims.size == 0:
-        return "No hay similitud", []
+        return "No hay similitud calculada", []
 
+    # Ordenar índices de mayor a menor similitud
     idxs = np.argsort(-sims)[:top_k]
+    
+    # --- DEBUGGING PRINT ---
+    print(f"\n🔍 PREGUNTA: {question}")
+    print("--------------------------------------------------")
+    for i in idxs:
+        score = sims[i]
+        preview = chunks[i][:100].replace('\n', ' ')
+        print(f"🔹 Score: {score:.4f} | Chunk: {preview}...")
+    print("--------------------------------------------------\n")
+    # -----------------------
+
     selected_chunks = [chunks[i] for i in idxs]
 
  
 
-    MAX_CONTEXT = 1800
+    MAX_CONTEXT = 100000 
+    
     context = ""
     for c in selected_chunks:
         if len(context) + len(c) > MAX_CONTEXT:
-            context += c[:MAX_CONTEXT - len(context)]
-            break
-        context += "\n\n" + c
+            # (Opcional) Puedes quitar este break si quieres que lea todo lo recuperado
+            break 
+        context += "\n---\n" + c # Separador claro entre chunks
 
    
 
     system_prompt = (
-    "Eres un asistente que responde SIEMPRE en español, "
-    "y SOLO usando la información del contexto del documento. "
-    "Si la respuesta no está en el contexto, responde exactamente: "
-    "\"No hay suficiente información en el documento para responder con precisión.\""
-)
+        "Eres un asistente útil y preciso. Responde a la pregunta del usuario "
+        "basándote ÚNICAMENTE en el siguiente contexto proporcionado. "
+        "El contexto puede estar fragmentado, intenta unir las ideas lógicamente. "
+        "Si la respuesta no está en el contexto, di que no tienes esa información."
+    )
 
     user_prompt = (
         f"Contexto:\n{context}\n\n"
@@ -189,7 +204,9 @@ async def answer(store, doc_id, question, top_k=3):
         "stream": False,
     }
 
-    timeout = httpx.Timeout(60.0, read=60.0, write=30.0, connect=10.0)
+    # 🔴 AQUÍ ESTÁ EL CAMBIO. 
+    # Ponle 600 segundos (10 minutos) para que NO falle nunca por tiempo.
+    timeout = httpx.Timeout(60.0, read=600.0, write=30.0, connect=10.0)
 
     async with httpx.AsyncClient(timeout=timeout) as client:
         try:
@@ -215,3 +232,40 @@ async def answer(store, doc_id, question, top_k=3):
 
 
     return answer, selected_chunks
+
+# --- Agrega esto al final de back/app/rag.py ---
+
+async def preload_models():
+    """
+    Envía peticiones vacías a Ollama para forzar la carga de los modelos
+    en memoria RAM al iniciar el servidor.
+    """
+    print("⏳ Iniciando pre-carga de modelos Ollama (esto puede tardar unos segundos)...")
+    
+    timeout = httpx.Timeout(120.0) # Damos buen tiempo para el arranque
+    
+    async with httpx.AsyncClient(timeout=timeout) as client:
+        # 1. Despertar al modelo de Embeddings
+        try:
+            print(f"   ↳ Cargando modelo de embeddings: {EMBEDDING_MODEL}...")
+            await client.post(
+                f"{OLLAMA_BASE_URL}/api/embeddings",
+                json={"model": EMBEDDING_MODEL, "prompt": "warmup"}
+            )
+            print("     ✅ Embeddings listos.")
+        except Exception as e:
+            print(f"     ❌ Error cargando embeddings: {e}")
+
+        # 2. Despertar al modelo LLM principal
+        try:
+            print(f"   ↳ Cargando LLM principal: {LLM_MODEL}...")
+            # Enviamos un prompt vacío con keep_alive para que se quede en RAM
+            await client.post(
+                f"{OLLAMA_BASE_URL}/api/generate",
+                json={"model": LLM_MODEL, "prompt": "", "keep_alive": "5m"}
+            )
+            print("     ✅ LLM listo.")
+        except Exception as e:
+            print(f"     ❌ Error cargando LLM: {e}")
+            
+    print("🚀 ¡Todo listo! Ollama está caliente y esperando peticiones.")

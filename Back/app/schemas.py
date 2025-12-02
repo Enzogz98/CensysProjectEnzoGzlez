@@ -10,10 +10,11 @@ class DocumentMetadata(BaseModel):
 class DocumentListResponse(BaseModel):
     documents: List[DocumentMetadata]
 
+# En main.py, permite que por defecto busque más trozos
 class QueryRequest(BaseModel):
     document_id: str
     question: str
-    top_k: int = 4
+    top_k: int = 15 
 
 class QueryResponse(BaseModel):
     answer: str
