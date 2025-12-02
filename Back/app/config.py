@@ -8,7 +8,7 @@ import os
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 
 # Modelo PRINCIPAL (LLM) — el que responde
-LLM_MODEL = os.getenv("LLM_MODEL", "llama3:instruct")
+LLM_MODEL = os.getenv("LLM_MODEL", "llama3.1")
 
 # Modelo para embeddings — mxbai es el correcto y recomendado
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "mxbai-embed-large")

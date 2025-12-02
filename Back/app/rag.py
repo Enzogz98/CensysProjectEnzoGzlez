@@ -1,42 +1,34 @@
 import httpx
 import numpy as np
 
+# Asegúrate de que en config.py tengas estos modelos definidos
 from .config import OLLAMA_BASE_URL, EMBEDDING_MODEL, LLM_MODEL
-
 
 # ==========================================================
 #  Chunking de texto
 # ==========================================================
 
-# Aumenta el overlap para que no se corten frases a la mitad
 def chunk_text(text: str, chunk_size: int = 3000, overlap: int = 200) -> list[str]:
-    # ... (tu código actual está bien, solo cambia los defaults arriba)
     if not text:
-        print("❌ chunk_text recibió texto vacío")
         return []
-
+    
     words = text.split()
     if not words:
-        print("❌ chunk_text: text.split() devolvió vacío")
         return []
 
     chunks = []
     i = 0
-
- 
-
     while i < len(words):
         chunk_words = words[i:i + chunk_size]
         if not chunk_words:
             break
-
+        
         chunk = " ".join(chunk_words)
         chunks.append(chunk)
-
+        # Avanzamos el índice restando el overlap para mantener contexto
         i += max(1, chunk_size - overlap)
 
     return chunks
-
 
 # ==========================================================
 #  Embeddings (Ollama)
@@ -47,50 +39,41 @@ async def embed_texts(texts: list[str]) -> np.ndarray:
         return np.zeros((0, 0), dtype="float32")
 
     vectors = []
+    # Timeout ajustado para operaciones de embedding
     timeout = httpx.Timeout(60.0, read=300.0, write=30.0, connect=10.0)
 
     async with httpx.AsyncClient(timeout=timeout) as client:
         for idx, t in enumerate(texts):
             trimmed = t.strip()
             if not trimmed:
-                print(f"⚠ Texto vacío en embedding idx={idx}")
                 continue
-
-            print(f"🟦 Embedding chunk {idx} (len={len(trimmed)})...")
 
             try:
                 res = await client.post(
                     f"{OLLAMA_BASE_URL}/api/embeddings",
                     json={"model": EMBEDDING_MODEL, "prompt": trimmed},
                 )
-            except Exception as e:
-                raise RuntimeError(f"Error conectando con Ollama embeddings: {e}")
-
-            if res.status_code != 200:
-                raise RuntimeError(f"HTTP {res.status_code} en embeddings: {res.text}")
-
-            try:
+                res.raise_for_status()
                 data = res.json()
-            except:
-                raise ValueError(f"Ollama embeddings devolvió basura: {res.text}")
+            except Exception as e:
+                print(f"⚠️ Error en embedding chunk {idx}: {e}")
+                continue
 
-            print(f"🟪 RAW EMBEDDING RESPONSE idx={idx}:", data)
-
-            if "error" in data:
-                raise RuntimeError(f"Error de Ollama en embeddings: {data['error']}")
-
+            # Manejo de respuesta de Ollama (puede variar según versión)
             if "embedding" in data:
                 vec = data["embedding"]
             elif "embeddings" in data:
                 vec = data["embeddings"][0]
             else:
-                raise ValueError(f"Formato inesperado en embeddings: {data}")
+                print(f"⚠️ Formato inesperado en chunk {idx}")
+                continue
 
             vectors.append(vec)
 
+    if not vectors:
+        return np.zeros((0, 0), dtype="float32")
 
     return np.array(vectors, dtype="float32")
-
 
 # ==========================================================
 #  Similitud coseno
@@ -98,101 +81,181 @@ async def embed_texts(texts: list[str]) -> np.ndarray:
 
 def cosine_sim(q, m):
     if m.size == 0:
-        print("❌ cosine_sim recibió matriz vacía")
         return np.array([])
-
-    q = q / np.linalg.norm(q)
-    m = m / np.linalg.norm(m, axis=1, keepdims=True)
+    
+    # Normalización para distancia coseno
+    norm_q = np.linalg.norm(q)
+    norm_m = np.linalg.norm(m, axis=1, keepdims=True)
+    
+    if norm_q == 0:
+        return np.zeros(m.shape[0])
+        
+    q = q / norm_q
+    # Evitar división por cero en la matriz
+    m = np.divide(m, norm_m, out=np.zeros_like(m), where=norm_m!=0)
+    
     return np.dot(m, q)
-
 
 # ==========================================================
 #  Construcción de índice
 # ==========================================================
 
 async def build_index(doc_id, text, store, chunk_size=220, overlap=40):
-
-
     if not text or len(text.strip()) < 20:
-        raise ValueError("❌ Texto extraído demasiado corto")
+        raise ValueError("❌ Texto demasiado corto para indexar")
 
     chunks = chunk_text(text, chunk_size, overlap)
     if not chunks:
-        raise ValueError("❌ No se generaron chunks en build_index")
+        raise ValueError("❌ No se generaron chunks")
 
     embeddings = await embed_texts(chunks)
     if embeddings.size == 0:
-        raise RuntimeError("❌ No se generaron embeddings")
+        raise RuntimeError("❌ Falló la generación de embeddings")
 
     store.save_index(doc_id, chunks, embeddings)
     print(f"✅ Índice guardado para {doc_id} ({len(chunks)} chunks)")
     return len(chunks)
 
-
 # ==========================================================
-#  Responder
+#  Responder (LÓGICA RAG AVANZADA)
 # ==========================================================
 
 async def answer(store, doc_id, question, top_k=15):
-
-
+    """
+    Función principal de respuesta que implementa:
+    1. Detección de intención (Resumen vs Búsqueda Específica).
+    2. Query Expansion (Sinónimos) para búsqueda específica.
+    3. Filtrado por umbral de similitud.
+    """
+    
+    # 1. Cargar datos
     index = store.load_index(doc_id)
     if not index:
-        return "No hay índice para este documento.", []
+        return "No hay índice disponible para este documento. Súbelo nuevamente.", []
 
     chunks = index.get("chunks", [])
     embs = np.array(index.get("embeddings", []), dtype="float32")
-
-
-    q_emb = await embed_texts([question])
-    if q_emb.size == 0:
-        return "Falla en embedding de pregunta", []
-
-    q_emb = q_emb[0]
-
-    sims = cosine_sim(q_emb, embs)
-    if sims.size == 0:
-        return "No hay similitud calculada", []
-
-    # Ordenar índices de mayor a menor similitud
-    idxs = np.argsort(-sims)[:top_k]
     
-    # --- DEBUGGING PRINT ---
-    print(f"\n🔍 PREGUNTA: {question}")
-    print("--------------------------------------------------")
-    for i in idxs:
-        score = sims[i]
-        preview = chunks[i][:100].replace('\n', ' ')
-        print(f"🔹 Score: {score:.4f} | Chunk: {preview}...")
-    print("--------------------------------------------------\n")
-    # -----------------------
+    if not chunks or embs.size == 0:
+        return "El documento parece estar vacío o corrupto.", []
 
-    selected_chunks = [chunks[i] for i in idxs]
+    # ---------------------------------------------------------
+    # ESTRATEGIA DE ENRUTAMIENTO (ROUTING)
+    # ---------------------------------------------------------
+    
+    question_lower = question.lower()
+    # Palabras clave que indican una intención global
+    keywords_summary = ["resumen", "resumí", "resumime", "todo el documento", "de qué trata", "puntos clave", "sintetiza", "resume"]
+    is_global_task = any(kw in question_lower for kw in keywords_summary)
 
- 
+    selected_chunks = []
 
-    MAX_CONTEXT = 100000 
+    if is_global_task:
+        # --- MODO LECTURA GLOBAL (RESUMEN) ---
+        print("🌍 [RAG] Detectada tarea de resumen. Leyendo secuencialmente.")
+        
+        # Tomamos los primeros N chunks en orden natural para dar contexto narrativo
+        # Unos 40 chunks de 220 palabras son ~8000 palabras, llenando el contexto de Llama3
+        LIMIT_CHUNKS_SUMMARY = 40 
+        selected_chunks = chunks[:LIMIT_CHUNKS_SUMMARY]
+        
+    else:
+        # --- MODO BÚSQUEDA ESPECÍFICA (RAG CON QUERY EXPANSION) ---
+        
+        # A. Expansión de Consulta (Solución para "Pasos vs Etapas")
+        print("🔍 [RAG] Iniciando búsqueda específica...")
+        
+        expansion_prompt = (
+            f"Actúa como un experto en búsqueda semántica. "
+            f"Para la siguiente pregunta, genera 3 o 4 palabras clave alternativas o sinónimos técnicos "
+            f"que podrían aparecer en un texto formal. "
+            f"Si la pregunta dice 'pasos', incluye 'etapas', 'fases', 'procedimiento'. "
+            f"Solo devuelve las palabras separadas por espacio.\n\n"
+            f"Pregunta: {question}"
+        )
+        
+        search_query = question
+        try:
+            # Timeout muy corto (4s) para no afectar la latencia
+            async with httpx.AsyncClient(timeout=4.0) as client:
+                res = await client.post(
+                    f"{OLLAMA_BASE_URL}/api/generate",
+                    json={
+                        "model": LLM_MODEL, 
+                        "prompt": expansion_prompt, 
+                        "stream": False,
+                        "options": {"num_predict": 30, "temperature": 0.1}
+                    }
+                )
+                if res.status_code == 200:
+                    synonyms = res.json().get("response", "").strip()
+                    # Limpieza básica
+                    synonyms = synonyms.replace("\n", " ").replace('"', '')
+                    search_query = f"{question} {synonyms}"
+                    print(f"🚀 Query Expandida: '{search_query}'")
+        except Exception as e:
+            print(f"⚠️ Falló expansión (usando original): {e}")
+
+        # B. Embedding de la consulta mejorada
+        q_emb = await embed_texts([search_query])
+        
+        if q_emb.size > 0:
+            q_emb = q_emb[0]
+            sims = cosine_sim(q_emb, embs)
+            
+            # C. Filtrado Inteligente
+            idxs = np.argsort(-sims) # Ordenar de mayor a menor similitud
+            
+            # Umbral de calidad: descartar lo que sea puro ruido (< 0.25)
+            # Esto mejora mucho la precisión para que el LLM no invente.
+            MIN_SCORE = 0.25 
+            
+            # Filtramos los top_k
+            best_idxs = [i for i in idxs[:top_k] if sims[i] >= MIN_SCORE]
+            
+            # Fallback: Si nada supera el umbral, tomamos los 2 mejores para intentar responder
+            if not best_idxs and len(chunks) > 0:
+                 print("⚠️ Baja similitud, usando fallback (top 2)...")
+                 best_idxs = idxs[:2]
+            
+            selected_chunks = [chunks[i] for i in best_idxs]
+            
+            # Debug visual en consola
+            print(f"📊 Chunks seleccionados: {len(selected_chunks)}")
+            for i in best_idxs[:3]:
+                 print(f"   -> Score: {sims[i]:.4f} | {chunks[i][:50]}...")
+
+    # ---------------------------------------------------------
+    # GENERACIÓN DE RESPUESTA (LLM)
+    # ---------------------------------------------------------
+    
+    # 1. Construir Contexto Único
+    # Llama 3 soporta ~8k tokens. Dejamos margen para la respuesta.
+    # 1 token ~= 4 caracteres. 30,000 caracteres es seguro.
+    MAX_CONTEXT_CHARS = 30000 
     
     context = ""
     for c in selected_chunks:
-        if len(context) + len(c) > MAX_CONTEXT:
-            # (Opcional) Puedes quitar este break si quieres que lea todo lo recuperado
-            break 
-        context += "\n---\n" + c # Separador claro entre chunks
+        if len(context) + len(c) > MAX_CONTEXT_CHARS:
+            break
+        context += "\n---\n" + c
 
-   
+    if not context.strip():
+        return "No pude encontrar información relevante en el documento para responder a tu pregunta.", []
 
+    # 2. Prompt del Sistema
     system_prompt = (
-        "Eres un asistente útil y preciso. Responde a la pregunta del usuario "
-        "basándote ÚNICAMENTE en el siguiente contexto proporcionado. "
-        "El contexto puede estar fragmentado, intenta unir las ideas lógicamente. "
-        "Si la respuesta no está en el contexto, di que no tienes esa información."
+        "Eres un asistente inteligente y preciso. "
+        "Tu tarea es responder a la pregunta basándote ÚNICAMENTE en el contexto proporcionado abajo. "
+        "Si el contexto es un conjunto de fragmentos, únelos para dar una respuesta coherente. "
+        "Si te piden un resumen, sintetiza los puntos clave del texto proporcionado. "
+        "Si la respuesta no está en el contexto, indícalo claramente."
     )
 
     user_prompt = (
-        f"Contexto:\n{context}\n\n"
-        f"Pregunta: {question}\n\n"
-        "Respuesta:"
+        f"CONTEXTO DEL DOCUMENTO:\n{context}\n\n"
+        f"PREGUNTA DEL USUARIO: {question}\n\n"
+        "RESPUESTA:"
     )
 
     payload = {
@@ -202,70 +265,67 @@ async def answer(store, doc_id, question, top_k=15):
             {"role": "user", "content": user_prompt},
         ],
         "stream": False,
+        "options": {
+            "num_ctx": 24000, # <--- CLAVE: Ventana amplia para resúmenes
+            "temperature": 0.3 # Baja temperatura para mayor fidelidad a los datos
+        }
     }
 
-    # 🔴 AQUÍ ESTÁ EL CAMBIO. 
-    # Ponle 600 segundos (10 minutos) para que NO falle nunca por tiempo.
+    # Timeout generoso para la generación (especialmente en resúmenes)
     timeout = httpx.Timeout(60.0, read=600.0, write=30.0, connect=10.0)
 
-    async with httpx.AsyncClient(timeout=timeout) as client:
-        try:
-            res = await client.post(f"{OLLAMA_BASE_URL}/api/chat", json=payload)
-        except Exception as e:
-            raise RuntimeError(f"Error conectando con Ollama (chat): {e}")
-
     try:
-        data = res.json()
-    except:
-        raise ValueError(f"Ollama devolvió basura:\n{res.text}")
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            res = await client.post(f"{OLLAMA_BASE_URL}/api/chat", json=payload)
+            
+            if res.status_code != 200:
+                return f"Error de Ollama ({res.status_code}): {res.text}", []
+                
+            data = res.json()
+            answer_text = data.get("message", {}).get("content", "").strip()
+            
+            if not answer_text:
+                return "El modelo no generó una respuesta.", []
+                
+            return answer_text, selected_chunks
 
-   
-
-    if res.status_code != 200:
-        return f"Error HTTP {res.status_code}: {data}", []
-
-    msg = data.get("message", {})
-    answer = msg.get("content", "").strip()
-
-    if not answer:
-        answer = "⚠ El modelo no pudo generar una respuesta válida."
+    except Exception as e:
+        return f"Error de conexión con el modelo: {str(e)}", []
 
 
-    return answer, selected_chunks
-
-# --- Agrega esto al final de back/app/rag.py ---
+# ==========================================================
+#  Pre-carga de modelos (Warmup)
+# ==========================================================
 
 async def preload_models():
     """
-    Envía peticiones vacías a Ollama para forzar la carga de los modelos
-    en memoria RAM al iniciar el servidor.
+    Envía peticiones vacías a Ollama para cargar modelos en RAM al inicio.
     """
-    print("⏳ Iniciando pre-carga de modelos Ollama (esto puede tardar unos segundos)...")
-    
-    timeout = httpx.Timeout(120.0) # Damos buen tiempo para el arranque
+    print("⏳ Iniciando pre-carga de modelos Ollama...")
+    timeout = httpx.Timeout(120.0)
     
     async with httpx.AsyncClient(timeout=timeout) as client:
-        # 1. Despertar al modelo de Embeddings
+        # 1. Embeddings
         try:
-            print(f"   ↳ Cargando modelo de embeddings: {EMBEDDING_MODEL}...")
+            print(f"   ↳ Cargando Embeddings: {EMBEDDING_MODEL}...")
             await client.post(
                 f"{OLLAMA_BASE_URL}/api/embeddings",
                 json={"model": EMBEDDING_MODEL, "prompt": "warmup"}
             )
             print("     ✅ Embeddings listos.")
         except Exception as e:
-            print(f"     ❌ Error cargando embeddings: {e}")
+            print(f"     ⚠️ No se pudo cargar embeddings: {e}")
 
-        # 2. Despertar al modelo LLM principal
+        # 2. LLM Principal
         try:
-            print(f"   ↳ Cargando LLM principal: {LLM_MODEL}...")
-            # Enviamos un prompt vacío con keep_alive para que se quede en RAM
+            print(f"   ↳ Cargando LLM: {LLM_MODEL}...")
+            # keep_alive mantiene el modelo en VRAM por 5 minutos
             await client.post(
                 f"{OLLAMA_BASE_URL}/api/generate",
                 json={"model": LLM_MODEL, "prompt": "", "keep_alive": "5m"}
             )
             print("     ✅ LLM listo.")
         except Exception as e:
-            print(f"     ❌ Error cargando LLM: {e}")
+            print(f"     ⚠️ No se pudo cargar LLM: {e}")
             
-    print("🚀 ¡Todo listo! Ollama está caliente y esperando peticiones.")
+    print("🚀 Sistema RAG listo.")
